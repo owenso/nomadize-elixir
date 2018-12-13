@@ -1,0 +1,16 @@
+$dark-primary: #00796B;
+$light-primary: #B2DFDB;
+$primary: #009688;
+$text-icons: #FFFFFF;
+$accent-color: #00BCD4;
+$primary-text: #212121;
+$secondary-text:#757575;
+$divider:#BDBDBD;
+
+
+@mixin centerer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
