@@ -1,25 +1,29 @@
 <template>
-  <div is="sui-container" class="landing" textAlign="center">
-    <h1 id="landing-header">Untitled Project</h1>
-    <sui-segment id="landing-searchbar" aligned="center">
-      <google-autocomplete v-on:searchcomplete="geolocateComplete" ref="googleAutocomplete"></google-autocomplete>
-    </sui-segment>
-    <div id="landing-actions">
-      <sui-grid :columns="2">
-        <sui-grid-row stretched>
-          <sui-grid-column>
-            <sui-button
-              v-on:click="geolocate"
-              v-bind:loading="geoLoading"
-              class="landing-buttons"
-              icon="globe"
-            >Find Me</sui-button>
-          </sui-grid-column>
-          <sui-grid-column>
-            <sui-button class="landing-buttons" icon="paper plane">Lets Go</sui-button>
-          </sui-grid-column>
-        </sui-grid-row>
-      </sui-grid>
+  <div class="container has-text-centered">
+    <div id="landing" textAlign="center">
+      <h1 id="landing-header" class="title">Untitled Project</h1>
+      <h2 class="subtitle">Something something something something. Witty. <br />Just select a departure city or click "Find Me" to let us try to figure out where you are.</h2>
+      <div id="landing-searchbar" aligned="center">
+        <google-autocomplete v-on:searchcomplete="geolocateComplete" ref="googleAutocomplete"></google-autocomplete>
+      </div>
+      <div class="buttons is-centered" id="landing-actions">
+        <a
+          class="button is-medium"
+          v-on:click="geolocate"
+          v-bind:class="{ 'is-loading': geoLoading}"
+        >
+          <span class="icon-button">
+            <map-search-icon/>
+          </span>
+          <span>Find Me</span>
+        </a>
+        <a class="button is-medium" v-bind:disabled="startLocationEmpty">
+          <span class="icon-button">
+            <earth-icon/>
+          </span>
+          <span>Lets Go</span>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -27,16 +31,26 @@
 <script>
 // @ is an alias to /src
 import GoogleAutocomplete from '@/components/GoogleAutocomplete.vue';
+import EarthIcon from 'vue-material-design-icons/Earth.vue';
+import MapSearchIcon from 'vue-material-design-icons/MapSearch.vue';
 
 export default {
   name: 'landing',
   data: function() {
     return {
-      geoLoading: false
+      geoLoading: false,
+      nextDisabled: true
     };
   },
   components: {
-    GoogleAutocomplete
+    GoogleAutocomplete,
+    MapSearchIcon,
+    EarthIcon
+  },
+  computed: {
+    startLocationEmpty() {
+      return this.$store.getters.noStartingLocation;
+    }
   },
   methods: {
     geolocate() {
@@ -51,31 +65,32 @@ export default {
 </script>
 
 <style lang="scss">
-#landing-header {
-  color: $text-icons;
-  font-size: 5em;
-  padding-top: 2.5em;
-  margin-bottom: 0.75em;
-  font-family: Arial, sans-serif;
-}
-
-#landing-searchbar {
-  width: 75%;
-  margin: 0 auto 1.5em;
-  padding: 0;
-}
-
-.landing {
-  height: 100%;
-}
-
-#landing-actions {
-  margin: 0 auto;
-  width: 50%;
-
-  .landing-buttons {
-    background-color: $accent-color;
+#landing {
+  h1 {
+    font-size: 10vh;
+  }
+  .title {
     color: $text-icons;
+  }
+  .subtitle {
+    color: $light-primary;
+  }
+  #landing-searchbar {
+    width: 75%;
+    margin: 0 auto 1em;
+    padding: 0;
+  }
+
+  #landing-actions {
+    .button {
+      background-color: $accent-color;
+      color: $text-icons;
+      border: none;
+
+      .icon-button {
+        padding-right: 5px;
+      }
+    }
   }
 }
 </style>

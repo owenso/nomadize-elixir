@@ -1,12 +1,18 @@
 $dark-primary: #00796B;
 $light-primary: #B2DFDB;
-$primary: #009688;
+$primary-color: #009688;
 $text-icons: #FFFFFF;
 $accent-color: #00BCD4;
 $primary-text: #212121;
 $secondary-text:#757575;
 $divider:#BDBDBD;
 
+// Bulma Vars
+$navbar-background-color: $dark-primary !important;
+$primary: $primary-color;
+$navbar-item-color: $text-icons;
+$navbar-item-hover-background-color: $accent-color;
+$navbar-item-hover-color: $text-icons;
 
 @mixin centerer {
   position: absolute;

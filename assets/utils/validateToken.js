@@ -6,7 +6,7 @@ export default function() {
   const token = localStorage.getItem('ua');
   return new Promise((resolve, reject) => {
     if (!token) {
-      reject();
+      reject(new Error('Token not found'));
     } else {
       axios
         .get(`${apiRoot}/auth/validate`)
@@ -15,7 +15,7 @@ export default function() {
         })
         .catch(() => {
           localStorage.removeItem('ua');
-          reject();
+          reject(new Error('Token expired'));
         });
     }
   });

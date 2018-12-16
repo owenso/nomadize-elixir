@@ -1,25 +1,41 @@
 import Vue from 'vue';
-import SuiVue from 'semantic-ui-vue';
-// import Autocomplete from 'v-autocomplete';
+// import SuiVue from 'semantic-ui-vue';
 import swal from 'sweetalert';
+import Buefy from 'buefy';
 
-import App from './App.vue';
 import router from './router';
 import store from './store';
 import axiosConfig from '../config/axiosConfig';
-import routerConfig from '../config/routerConfig';
+import validateToken from '../utils/validateToken';
 
-import 'semantic-ui-css/semantic.min.css';
-import 'v-autocomplete/dist/v-autocomplete.css';
+import App from './App.vue';
+
+import 'vue-material-design-icons/styles.css';
 
 axiosConfig();
-routerConfig(router, store);
 
 Object.defineProperty(Vue.prototype, '$swal', { value: swal });
 
 Vue.config.productionTip = false;
-Vue.use(SuiVue);
-// Vue.use(Autocomplete);
+Vue.use(Buefy);
+// Vue.use(SuiVue);
+
+router.beforeEach((to, from, next) => {
+  const authRequired = to.matched.some(route => route.meta.auth);
+  if (!authRequired) {
+    next();
+  } else {
+    validateToken()
+      .then(data => {
+        // when token is validated, set any user data that may have been cleared from the store
+        store.commit('SET_USER_INFO', data);
+        next();
+      })
+      .catch(() => {
+        next('/');
+      });
+  }
+});
 
 new Vue({
   router,

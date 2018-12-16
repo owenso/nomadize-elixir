@@ -61,7 +61,7 @@ export default {
 <style lang="scss">
 #google-autocomplete {
   input {
-    font-size: 1.5em;
+    font-size: 1.25em;
     padding: 10px 15px;
     -webkit-box-shadow: none;
     box-shadow: none;

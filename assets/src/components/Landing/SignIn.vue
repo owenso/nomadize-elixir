@@ -23,12 +23,11 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       username: '',
-      password: '',
+      password: ''
     };
   },
   methods: {
@@ -42,16 +41,17 @@ export default {
       const payload = {
         Username: this.username,
         Password: this.password,
-        Provider: 'local',
+        Provider: 'local'
       };
 
       this.$store.dispatch('login', payload);
-    },
+    }
   },
   computed: {
     authStatuses() {
       return this.$store.state.auth;
-    },
-  },
+    }
+  }
 };
 </script>
+

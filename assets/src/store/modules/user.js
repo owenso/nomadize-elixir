@@ -1,5 +1,6 @@
 import * as types from '../mutation-types';
 import router from '../../router';
+import axios from 'axios';
 const apiRoot = process.env.API_ROOT;
 
 const state = {
@@ -10,6 +11,9 @@ const state = {
 const getters = {
   getStartingLocation(state) {
     return state.startingLocation;
+  },
+  noStartingLocation(state) {
+    return Object.keys(state.startingLocation).length === 0;
   }
 };
 const actions = {
@@ -21,14 +25,15 @@ const actions = {
   },
   getUserInfo({ commit }) {
     commit(types.GET_USER_PENDING);
-    axios.get(`${apiRoot}/user`)
-      .then((response) => {
+    axios
+      .get(`${apiRoot}/user`)
+      .then(response => {
         localStorage.setItem('ua', response.data.token);
         commit(types.GET_USER_SUCCESS);
         commit(types.SET_USER_INFO, response.data);
         router.push('/main');
       })
-      .catch((err) => {
+      .catch(err => {
         commit(types.GET_USER_FAILURE, err);
       });
   },

@@ -14,6 +14,11 @@ module.exports = {
       // pass options to sass-loader
       sass: {
         data: `@import "@/styles/variables.scss";`
+      },
+      postcss: {
+        config: {
+          path: './postcss.config.js'
+        }
       }
     }
   }

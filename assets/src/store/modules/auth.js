@@ -6,17 +6,27 @@ const apiRoot = process.env.API_ROOT;
 
 // initial state
 const state = {
-  loginPending: false,
-  loginFailure: false,
-  loginSuccess: false,
-  signupPending: false,
-  signupFailure: false,
-  signupSuccess: false,
-  signupEmail: null
+  login: {
+    loginPending: false,
+    loginFailure: false,
+    loginSuccess: false
+  },
+  signup: {
+    signupPending: false,
+    signupFailure: false,
+    signupSuccess: false
+  },
+  creds: {
+    email: ''
+  }
 };
 
 // getters
-const getters = {};
+const getters = {
+  getAuthEmail(state) {
+    return state.creds.email;
+  }
+};
 
 // actions
 const actions = {
@@ -52,9 +62,12 @@ const actions = {
         .catch(err => {
           commit(types.SIGNUP_FAILURE, err);
           console.log(err);
-          reject();
+          reject(err);
         });
     });
+  },
+  setAuthEmail({ commit }, payload) {
+    commit(types.SET_AUTH_EMAIL, payload);
   }
 };
 
@@ -101,6 +114,11 @@ const mutations = {
     state.signupFailure = false;
     state.signupSuccess = true;
     state.signupEmail = email;
+  },
+
+  [types.SET_AUTH_EMAIL](state, email) {
+    console.log(email);
+    state.creds.email = email;
   }
 };
 
