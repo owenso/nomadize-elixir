@@ -18,6 +18,11 @@ const state = {
   },
   creds: {
     email: ''
+  },
+  reset: {
+    resetPending: false,
+    resetFailure: false,
+    resetSuccess: false
   }
 };
 
@@ -68,6 +73,22 @@ const actions = {
   },
   setAuthEmail({ commit }, payload) {
     commit(types.SET_AUTH_EMAIL, payload);
+  },
+  sendReset({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      commit(types.RESET_PENDING);
+      return axios
+        .post(`${apiRoot}/reset`, payload)
+        .then(response => {
+          commit(types.RESET_SUCCESS, response.data.email);
+          resolve();
+        })
+        .catch(err => {
+          commit(types.RESET_FAILURE, err);
+          console.log(err);
+          reject(err);
+        });
+    });
   }
 };
 
@@ -119,6 +140,23 @@ const mutations = {
   [types.SET_AUTH_EMAIL](state, email) {
     console.log(email);
     state.creds.email = email;
+  },
+  [types.RESET_PENDING](state) {
+    state.resetPending = true;
+    state.resetFailure = false;
+    state.resetSuccess = false;
+  },
+
+  [types.RESET_FAILURE](state, error) {
+    state.resetPending = false;
+    state.resetFailure = error;
+    state.resetSuccess = false;
+  },
+
+  [types.RESET_SUCCESS](state) {
+    state.resetPending = false;
+    state.resetFailure = false;
+    state.resetSuccess = true;
   }
 };
 

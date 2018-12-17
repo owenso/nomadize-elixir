@@ -30,7 +30,7 @@ export default {
       email: ''
     };
   },
-  props: ['stateEmail'],
+  props: ['stateEmail', 'sendReset'],
   created() {
     this.email = this.stateEmail;
   },
@@ -40,9 +40,7 @@ export default {
       this.$emit('authdropdownshow', 'signin');
     },
     submitReset() {
-      const email = this.email;
-      console.log(email);
-      this.$store.dispatch('sendReset', email);
+      this.sendReset(this.email);
     }
   }
 };

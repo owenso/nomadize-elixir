@@ -17,6 +17,16 @@ config :nomadize, NomadizeWeb.Endpoint,
   pubsub: [name: Nomadize.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Phauxth authentication configuration
+config :phauxth,
+  user_context: Nomadize.Accounts,
+  crypto_module: Comeonin.Argon2,
+  token_module: NomadizeWeb.Auth.Token
+
+# Mailer configuration
+config :nomadize, NomadizeWeb.Mailer,
+  adapter: Bamboo.LocalAdapter
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

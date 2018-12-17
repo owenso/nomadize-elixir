@@ -11,6 +11,10 @@ export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 
 export const SET_AUTH_EMAIL = 'SET_AUTH_EMAIL';
 
+export const RESET_PENDING = 'RESET_PENDING';
+export const RESET_SUCCESS = 'RESET_SUCCESS';
+export const RESET_FAILURE = 'RESET_FAILURE';
+
 // user types
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const CLEAR_USER_INFO = 'CLEAR_USER_INFO';

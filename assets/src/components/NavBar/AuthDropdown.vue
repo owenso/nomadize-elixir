@@ -8,14 +8,14 @@
       <auth-dropdown-pass-reset
         v-on:authdropdownshow="setView"
         :setEmail="setAuthEmail"
-        :stateEmail = "email"
+        :stateEmail="email"
         v-if="view == 'reset'"
       />
       <auth-dropdown-sign-in
         v-on:authdropdownshow="setView"
         :setEmail="setAuthEmail"
         :submit="login"
-        :stateEmail = "email"
+        :stateEmail="email"
         v-if="view == 'signin'"
       />
     </b-dropdown-item>
@@ -48,7 +48,8 @@ export default {
     },
     ...mapActions({
       setAuthEmail: 'setAuthEmail',
-      login: 'login'
+      login: 'login',
+      sendReset: 'sendReset'
     })
   }
 };
