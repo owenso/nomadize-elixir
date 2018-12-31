@@ -47,8 +47,10 @@ export default {
     },
     save() {
       this.submit({
-        email: this.email,
-        password: this.password
+        session: {
+          email: this.email,
+          password: this.password
+        }
       });
     }
   }

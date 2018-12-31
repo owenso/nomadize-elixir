@@ -2,8 +2,7 @@ import axios from 'axios';
 import * as types from '../mutation-types';
 // import router from '../../router';
 
-const apiRoot = process.env.API_ROOT;
-
+const apiRoot = process.env.VUE_APP_API_ROOT;
 // initial state
 const state = {
   login: {
@@ -40,7 +39,8 @@ const actions = {
     axios
       .post(`${apiRoot}/sessions`, payload)
       .then(response => {
-        localStorage.setItem('ua', response.data.token);
+        console.log(response);
+        localStorage.setItem('ua', response.data.access_token);
         commit(types.LOGIN_SUCCESS);
         commit(types.SET_USER_INFO, response.data);
         // router.push('/main');

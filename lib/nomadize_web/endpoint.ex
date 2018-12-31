@@ -37,6 +37,9 @@ defmodule NomadizeWeb.Endpoint do
     key: "_nomadize_key",
     signing_salt: "eYzgNHKU"
 
+  # https://github.com/mschae/cors_plug
+  plug CORSPlug
+
   plug NomadizeWeb.Router
 
   @doc """

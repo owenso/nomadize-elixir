@@ -55,3 +55,8 @@ config :nomadize, Nomadize.Repo,
   hostname: System.get_env("DATA_DB_HOST"),
   database: "gonano",
   pool_size: 10
+
+config :cors_plug,
+  origin: ["http://nomadize.local:8080"],
+  max_age: 86400,
+  methods: ["GET", "POST"]
