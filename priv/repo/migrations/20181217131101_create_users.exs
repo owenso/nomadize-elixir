@@ -3,8 +3,9 @@ defmodule Nomadize.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add(:email, :string)
+      add(:email, :string, null: false)
       add(:password_hash, :string)
+      add(:role, :string)
       add(:confirmed_at, :utc_datetime)
       add(:reset_sent_at, :utc_datetime)
 

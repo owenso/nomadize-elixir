@@ -10,8 +10,10 @@ defmodule NomadizeWeb.UserController do
   action_fallback NomadizeWeb.FallbackController
 
   # the following plugs are defined in the controllers/authorize.ex file
-  plug :user_check when action in [:index, :show]
-  plug :id_check when action in [:update, :delete]
+  # plug :user_check when action in [:index, :show]
+  # plug :id_check when action in [:update, :delete]
+  plug :role_check, [roles: ["admin"]] when action in [:index, :delete]
+  plug :id_or_role, [roles: ["admin"]] when action in [:show, :update, :edit]
 
   def index(conn, _) do
     users = Accounts.list_users()

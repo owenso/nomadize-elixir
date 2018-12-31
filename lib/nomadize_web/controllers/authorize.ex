@@ -55,6 +55,32 @@ defmodule NomadizeWeb.Authorize do
     end
   end
 
+    # role checks
+  # http://www.alexafshar.com/2017/10/18/phoenix-auth-guardian-coherence-phauxth-part-two.html
+  def role_check(%Plug.Conn{assigns: %{current_user: nil}} = conn, _opts) do
+    error(conn, :forbidden, 403)
+  end
+
+  def role_check(%Plug.Conn{assigns: %{current_user: current_user}} = conn, opts) do
+    if opts[:roles] && current_user.role in opts[:roles],
+      do: conn,
+      else: error(conn, :unauthorized, 401)
+  end
+
+  def id_or_role(%Plug.Conn{assigns: %{current_user: nil}} = conn, _opts),
+    do: error(conn, :forbidden, 403)
+
+  def id_or_role(
+        %Plug.Conn{params: %{"id" => id}, assigns: %{current_user: current_user}} = conn,
+        opts
+      ) do
+    if (opts[:roles] && current_user.role in opts[:roles]) or id == to_string(current_user.id) do
+      conn
+    else
+      error(conn, :unauthorized, 401)
+    end
+  end
+
   def error(conn, status, code) do
     put_status(conn, status)
     |> put_view(NomadizeWeb.AuthView)

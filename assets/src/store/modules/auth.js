@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as types from '../mutation-types';
-import router from '../../router';
+// import router from '../../router';
 
 const apiRoot = process.env.API_ROOT;
 
@@ -38,12 +38,12 @@ const actions = {
   login({ commit }, payload) {
     commit(types.LOGIN_PENDING);
     axios
-      .post(`${apiRoot}/signin`, payload)
+      .post(`${apiRoot}/sessions`, payload)
       .then(response => {
         localStorage.setItem('ua', response.data.token);
         commit(types.LOGIN_SUCCESS);
         commit(types.SET_USER_INFO, response.data);
-        router.push('/main');
+        // router.push('/main');
       })
       .catch(err => {
         commit(types.LOGIN_FAILURE, err);
@@ -53,7 +53,7 @@ const actions = {
     localStorage.removeItem('ua');
     commit(types.LOGOUT);
     commit(types.CLEAR_USER_INFO);
-    router.push('/');
+    // router.push('/');
   },
   signup({ commit }, payload) {
     return new Promise((resolve, reject) => {

@@ -94,4 +94,100 @@ defmodule Nomadize.Accounts do
     |> User.password_reset_changeset(nil)
     |> Repo.update()
   end
+
+  alias Nomadize.Accounts.LoginLog
+
+  @doc """
+  Returns the list of login_log.
+
+  ## Examples
+
+      iex> list_login_log()
+      [%LoginLog{}, ...]
+
+  """
+  def list_login_log do
+    Repo.all(LoginLog)
+  end
+
+  @doc """
+  Gets a single login_log.
+
+  Raises `Ecto.NoResultsError` if the Login log does not exist.
+
+  ## Examples
+
+      iex> get_login_log!(123)
+      %LoginLog{}
+
+      iex> get_login_log!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_login_log!(id), do: Repo.get!(LoginLog, id)
+
+  @doc """
+  Creates a login_log.
+
+  ## Examples
+
+      iex> create_login_log(%{field: value})
+      {:ok, %LoginLog{}}
+
+      iex> create_login_log(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_login_log(attrs \\ %{}) do
+    %LoginLog{}
+    |> LoginLog.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a login_log.
+
+  ## Examples
+
+      iex> update_login_log(login_log, %{field: new_value})
+      {:ok, %LoginLog{}}
+
+      iex> update_login_log(login_log, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_login_log(%LoginLog{} = login_log, attrs) do
+    login_log
+    |> LoginLog.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a LoginLog.
+
+  ## Examples
+
+      iex> delete_login_log(login_log)
+      {:ok, %LoginLog{}}
+
+      iex> delete_login_log(login_log)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_login_log(%LoginLog{} = login_log) do
+    Repo.delete(login_log)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking login_log changes.
+
+  ## Examples
+
+      iex> change_login_log(login_log)
+      %Ecto.Changeset{source: %LoginLog{}}
+
+  """
+  def change_login_log(%LoginLog{} = login_log) do
+    LoginLog.changeset(login_log, %{})
+  end
 end
