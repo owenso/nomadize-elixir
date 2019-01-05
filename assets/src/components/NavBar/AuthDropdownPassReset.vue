@@ -9,11 +9,12 @@
           <b-input type="email" placeholder="Your email" v-model="email" required></b-input>
         </b-field>
       </section>
-      <footer class="modal-card-foot is-grouped-centered" id="sign-in-actions">
+      <footer class="modal-card-foot is-grouped-centered" id="auth-actions">
         <button
           type="button"
-          v-on:click="showSignUp"
+          v-on:click="showSignIn"
           formnovalidate
+          :class="{isLoading: this.state.resetPending}"
           class="button is-fullwidth cancel-button-override"
         >Cancel</button>
         <button class="button is-fullwidth">Submit</button>
@@ -30,17 +31,21 @@ export default {
       email: ''
     };
   },
-  props: ['stateEmail', 'sendReset'],
+  props: ['stateEmail', 'submit', 'state'],
   created() {
     this.email = this.stateEmail;
   },
   methods: {
-    showSignUp() {
+    showSignIn() {
       this.$store.dispatch('setAuthEmail', this.email);
       this.$emit('authdropdownshow', 'signin');
     },
     submitReset() {
-      this.sendReset(this.email);
+      this.submit({
+        password_reset: {
+          email: this.email
+        }
+      });
     }
   }
 };

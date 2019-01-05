@@ -8,7 +8,9 @@
       <auth-dropdown-pass-reset
         v-on:authdropdownshow="setView"
         :setEmail="setAuthEmail"
+        :submit="sendReset"
         :stateEmail="email"
+        :state="passResetState"
         v-if="view == 'reset'"
       />
       <auth-dropdown-sign-in
@@ -16,7 +18,16 @@
         :setEmail="setAuthEmail"
         :submit="login"
         :stateEmail="email"
+        :state="signInState"
         v-if="view == 'signin'"
+      />
+      <auth-dropdown-sign-up
+        v-on:authdropdownshow="setView"
+        :setEmail="setAuthEmail"
+        :submit="signup"
+        :state="signUpState"
+        :stateEmail="email"
+        v-if="view == 'signup'"
       />
     </b-dropdown-item>
   </b-dropdown>
@@ -24,13 +35,15 @@
 
 <script>
 import AuthDropdownSignIn from './AuthDropdownSignIn.vue';
+import AuthDropdownSignUp from './AuthDropdownSignUp.vue';
 import AuthDropdownPassReset from './AuthDropdownPassReset';
 import { mapState, mapActions } from 'vuex';
 
 export default {
   components: {
     AuthDropdownSignIn,
-    AuthDropdownPassReset
+    AuthDropdownPassReset,
+    AuthDropdownSignUp
   },
   data: function() {
     return {
@@ -39,7 +52,10 @@ export default {
   },
   computed: {
     ...mapState({
-      email: state => state.auth.creds.email
+      email: state => state.auth.creds.email,
+      passResetState: state => state.reset,
+      signUpState: state => state.signup,
+      signInState: state => state.login
     })
   },
   methods: {
@@ -49,7 +65,8 @@ export default {
     ...mapActions({
       setAuthEmail: 'setAuthEmail',
       login: 'login',
-      sendReset: 'sendReset'
+      sendReset: 'sendReset',
+      signup: 'signup'
     })
   }
 };
@@ -60,7 +77,7 @@ export default {
   span.icon.is-right.has-text-primary.is-clickable {
     color: $accent-color !important;
   }
-  #sign-in-actions {
+  #auth-actions {
     .button {
       background-color: $accent-color;
       color: $text-icons;
@@ -69,6 +86,10 @@ export default {
 
     .cancel-button-override {
       background-color: hsl(348, 100%, 61%);
+    }
+
+    .tall-button {
+      height: auto;
     }
   }
 }

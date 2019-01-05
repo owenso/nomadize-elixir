@@ -14,7 +14,7 @@ defmodule NomadizeWeb.PasswordResetController do
     conn
     |> put_status(:created)
     |> put_view(NomadizeWeb.PasswordResetView)
-    |> render("info.json", %{info: "Check your inbox for instructions on how to reset your password"})
+    |> render("info.json", %{info: "Thank you. If we have an account matching that address, you will recieve instructions on how to reset your password"})
   end
 
   def update(conn, %{"password_reset" => params}) do

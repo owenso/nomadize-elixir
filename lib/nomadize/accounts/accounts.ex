@@ -6,7 +6,6 @@ defmodule Nomadize.Accounts do
   import Ecto.Query, warn: false
 
   alias Nomadize.{Accounts.User, Repo, Sessions, Sessions.Session}
-
   @doc """
   Returns the list of users.
   """

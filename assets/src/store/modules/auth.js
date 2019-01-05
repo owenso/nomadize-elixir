@@ -21,7 +21,8 @@ const state = {
   reset: {
     resetPending: false,
     resetFailure: false,
-    resetSuccess: false
+    resetSuccess: false,
+    info: {}
   }
 };
 
@@ -39,7 +40,6 @@ const actions = {
     axios
       .post(`${apiRoot}/sessions`, payload)
       .then(response => {
-        console.log(response);
         localStorage.setItem('ua', response.data.access_token);
         commit(types.LOGIN_SUCCESS);
         commit(types.SET_USER_INFO, response.data);
@@ -78,9 +78,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit(types.RESET_PENDING);
       return axios
-        .post(`${apiRoot}/reset`, payload)
+        .post(`${apiRoot}/password_resets`, payload)
         .then(response => {
-          commit(types.RESET_SUCCESS, response.data.email);
+          // commit(types.RESET_SUCCESS, response.data.info);
           resolve();
         })
         .catch(err => {
@@ -95,68 +95,68 @@ const actions = {
 // mutations
 const mutations = {
   [types.LOGIN_PENDING](state) {
-    state.loginPending = true;
-    state.loginFailure = false;
-    state.loginSuccess = false;
+    state.login.loginPending = true;
+    state.login.loginFailure = false;
+    state.login.loginSuccess = false;
   },
 
   [types.LOGIN_FAILURE](state, error) {
-    state.loginPending = false;
-    state.loginFailure = error;
-    state.loginSuccess = false;
+    state.login.loginPending = false;
+    state.login.loginFailure = error;
+    state.login.loginSuccess = false;
   },
 
   [types.LOGIN_SUCCESS](state) {
-    state.loginPending = false;
-    state.loginFailure = false;
-    state.loginSuccess = true;
+    state.login.loginPending = false;
+    state.login.loginFailure = false;
+    state.login.loginSuccess = true;
   },
 
   [types.LOGOUT](state) {
-    state.loginSuccess = false;
+    state.login.loginSuccess = false;
   },
 
   [types.SIGNUP_PENDING](state) {
-    state.signupPending = true;
-    state.signupFailure = false;
-    state.signupSuccess = false;
-    state.signupEmail = null;
+    state.signup.signupPending = true;
+    state.signup.signupFailure = false;
+    state.signup.signupSuccess = false;
+    state.signup.signupEmail = null;
   },
 
   [types.SIGNUP_FAILURE](state, error) {
-    state.signupPending = false;
-    state.signupFailure = error;
-    state.signupSuccess = false;
-    state.signupEmail = null;
+    state.signup.signupPending = false;
+    state.signup.signupFailure = error;
+    state.signup.signupSuccess = false;
+    state.signup.signupEmail = null;
   },
 
   [types.SIGNUP_SUCCESS](state, email) {
-    state.signupPending = false;
-    state.signupFailure = false;
-    state.signupSuccess = true;
-    state.signupEmail = email;
+    state.signup.signupPending = false;
+    state.signup.signupFailure = false;
+    state.signup.signupSuccess = true;
+    state.signup.signupEmail = email;
   },
 
   [types.SET_AUTH_EMAIL](state, email) {
-    console.log(email);
     state.creds.email = email;
   },
   [types.RESET_PENDING](state) {
-    state.resetPending = true;
-    state.resetFailure = false;
-    state.resetSuccess = false;
+    state.reset.resetPending = true;
+    state.reset.resetFailure = false;
+    state.reset.resetSuccess = false;
   },
 
   [types.RESET_FAILURE](state, error) {
-    state.resetPending = false;
-    state.resetFailure = error;
-    state.resetSuccess = false;
+    state.reset.resetPending = false;
+    state.reset.resetFailure = error;
+    state.reset.resetSuccess = false;
   },
 
-  [types.RESET_SUCCESS](state) {
-    state.resetPending = false;
-    state.resetFailure = false;
-    state.resetSuccess = true;
+  [types.RESET_SUCCESS](state, info) {
+    state.reset.resetInfo = info;
+    state.reset.resetPending = false;
+    state.reset.resetFailure = false;
+    state.reset.resetSuccess = true;
   }
 };
 

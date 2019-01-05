@@ -15,14 +15,24 @@
             required
           ></b-input>
         </b-field>
+
+        <b-field label="Confirm Your Password">
+          <b-input
+            type="password"
+            v-model="password"
+            password-reveal
+            placeholder="Your password, again"
+            required
+          ></b-input>
+        </b-field>
         <!-- <b-checkbox>Remember me</b-checkbox> -->
         <b-field class="has-text-centered">
-          <a class="control" v-on:click="showReset">Forgot your Password?</a>
+          <a class="control" v-on:click="showReset">Already have an account, but forgot your Password?</a>
         </b-field>
       </section>
       <footer class="modal-card-foot is-grouped-centered" id="auth-actions">
-        <button loading="this.state.loginPending" class="button is-fullwidth">Log In</button>
-        <button v-on:click="showSignUp" formnovalidate class="button is-fullwidth">Sign Up</button>
+        <button v-on:click="showSignIn" formnovalidate class="button cancel-button-override ">Back to Sign In</button>
+        <button loading="this.state.signupPending" class="button">Create Account</button>
       </footer>
     </div>
   </form>
@@ -43,7 +53,7 @@ export default {
   methods: {
     showSignUp() {
       this.$store.dispatch('setAuthEmail', this.email);
-      this.$emit('authdropdownshow', 'signup');
+      this.$emit('authdropdownshow', 'signin');
     },
     showReset() {
       this.setEmail(this.email);
